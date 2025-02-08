@@ -1,0 +1,5 @@
+DATOS TORNEO: Torneo{id=6, nombre='dlakfjg', codRegion=a, puntosVictoria=10000}
+DATOS COMBATES:
+Combate{id=17, fecha=2009-09-09, ganador=null}
+Combate{id=18, fecha=2009-09-09, ganador=null}
+Combate{id=16, fecha=2009-09-09, ganador=null}

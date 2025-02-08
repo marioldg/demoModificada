@@ -47,7 +47,7 @@ public class NuevoTorneo {
                 passADT = sc.next();
                 System.out.println("El usuario es: "+userADT+
                         "\nEl contraseña es: "+passADT);
-                System.out.println("Presiona 1 para continuar o 2 para cancelar");
+                System.out.println("1 : continuar ||  2 : cancelar");
                 int validar = sc.nextInt();
 
                 if (validar == 1){

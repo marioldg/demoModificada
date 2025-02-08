@@ -7,3 +7,12 @@ Los datos de los combates son:
 Combate{id=8, fecha=2000-09-09, ganador=null}
 Combate{id=7, fecha=2000-09-09, ganador=null}
 Combate{id=9, fecha=2000-09-09, ganador=null}
+DATOS TORNEO: Torneo{id=3, nombre='1', codRegion=p, puntosVictoria=10000}
+DATOS ENTRENADORES :
+Entrenador{nacionalidad='brasil', nombre='jos', id=3, numVictorias= 0}
+Entrenador{nacionalidad='brasil', nombre='kike', id=2, numVictorias= 0}
+Entrenador{nacionalidad='brasil', nombre='poper', id=4, numVictorias= 0}
+DATOS COMBATES:
+Combate{id=7, fecha=2000-09-09, ganador=null}
+Combate{id=8, fecha=2000-09-09, ganador=null}
+Combate{id=9, fecha=2000-09-09, ganador=null}

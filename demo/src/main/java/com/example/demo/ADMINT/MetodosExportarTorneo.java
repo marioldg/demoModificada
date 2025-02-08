@@ -11,13 +11,13 @@ import java.util.List;
 
 public class MetodosExportarTorneo {
 
-    public static void escribirEnArchivo(String nombreArchivo, Torneo torneo, List<Entrenador> entrenadores, List<Combate> combates) {
+    public static void exportarFicheroTorneo(String nombreArchivo, Torneo torneo, List<Entrenador> entrenadores, List<Combate> combates) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
-            writer.write("Los datos de este Torneo son: " + torneo.toString());
-            writer.newLine(); // Agrega un salto de línea
+            writer.write("DATOS TORNEO: " + torneo.toString());
+            writer.newLine();
 
             if (!entrenadores.isEmpty()) {
-                writer.write("Los datos de los entrenadores son:");
+                writer.write("DATOS ENTRENADORES :");
                 writer.newLine();
                 for (Entrenador entrenador : entrenadores) {
                     writer.write(entrenador.toString());
@@ -26,7 +26,7 @@ public class MetodosExportarTorneo {
             }
 
             if (!combates.isEmpty()) {
-                writer.write("Los datos de los combates son:");
+                writer.write("DATOS COMBATES:");
                 writer.newLine();
                 for (Combate combate : combates) {
                     writer.write(combate.toString());
@@ -37,5 +37,4 @@ public class MetodosExportarTorneo {
             System.err.println("Error al escribir en el archivo: " + e.getMessage());
         }
     }
-
 }

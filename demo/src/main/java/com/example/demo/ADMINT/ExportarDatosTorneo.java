@@ -19,7 +19,7 @@ public class ExportarDatosTorneo {
     EntrenadorService entrenadorService;
     CombateService combateService;
 
-    public ExportarDatosTorneo(TorneoService torneoService,EntrenadorService entrenadorService,CombateService combateService){
+    public ExportarDatosTorneo(TorneoService torneoService, EntrenadorService entrenadorService, CombateService combateService) {
         this.torneoService = torneoService;
         this.entrenadorService = entrenadorService;
         this.combateService = combateService;
@@ -29,51 +29,42 @@ public class ExportarDatosTorneo {
         Scanner sc = new Scanner(System.in);
 
         long idTorneo = Long.parseLong(id);
-
         Torneo torneo = torneoService.buscarTorneoPorId(idTorneo);
 
-
-        System.out.println("Los datos del torneo que quieres exportar son los siguientes:");
-        System.out.println("--------------------------------");
+        System.out.println("EXPORTAR TORNEO ");
+        System.out.println("DATOS TORNEO:");
         System.out.println(torneo.toString());
-        System.out.println("--------------------------------");
 
         Set<Entrenador> entrenadorSet = torneo.getEntrenadores();
         List<Entrenador> listaEntrenadores = new ArrayList<>(entrenadorSet);
         Set<Combate> combates = torneo.getCombates();
         List<Combate> listaCombates = new ArrayList<>(combates);
 
-        System.out.println("Los datos de los entrenadores que quieres exportar son los siguientes:");
-        System.out.println("--------------------------------");
-
-        if(entrenadorSet.isEmpty()){
-            System.out.println("No hay entrenadores en el Torneo ");
-        }else {
+        System.out.println("DATOS ENTRENADORES:");
+        if (entrenadorSet.isEmpty()) {
+            System.out.println("ERROR: No hay entrenadores en el torneo");
+        } else {
             System.out.println(entrenadorSet);
         }
-        System.out.println("--------------------------------");
 
-        System.out.println("Los datos de los combates que quieres exportar son los siguientes:");
-        System.out.println("--------------------------------");
-
-        if(listaCombates.isEmpty()){
-            System.out.println("No hay combates en el Torneo");
-        }else {
+        System.out.println("DATOS COMBATES:");
+        if (listaCombates.isEmpty()) {
+            System.out.println("ERROR: No hay combates en el torneo");
+        } else {
             System.out.println(combates);
         }
-        System.out.println("--------------------------------");
 
-
-        System.out.print("Quieres guardarlo en un fichero .txt: ");
-        String siNo = sc.next();
-        if(siNo.equalsIgnoreCase("si")|| siNo.equalsIgnoreCase("s")){
+        System.out.print("1 : guardar en txt || 2 : no guardar: ");
+        int opcion = sc.nextInt();
+        if (opcion == 1) {
             MetodosExportarTorneo metodosExportarTorneo = new MetodosExportarTorneo();
-            MetodosExportarTorneo.escribirEnArchivo("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\DocsExportados\\"+torneo.getNombre().toUpperCase()+".txt",torneo,listaEntrenadores,listaCombates);
-        }else{
+            MetodosExportarTorneo.exportarFicheroTorneo("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\DocsExportados\\"
+                    + torneo.getNombre().toUpperCase() + ".txt", torneo, listaEntrenadores, listaCombates);
+            System.out.println("TORNEO GUARDADO CORRECTAMENTE!!");
+        } else if (opcion == 2) {
             System.out.println("No se exportara a un fichero txt.");
+        } else {
+            System.out.println("ERROR: Opción no válida.. No se exportara a un fichero txt.");
         }
-
-
-
     }
 }
