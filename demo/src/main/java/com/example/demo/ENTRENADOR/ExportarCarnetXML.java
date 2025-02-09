@@ -58,7 +58,7 @@ public class ExportarCarnetXML {
             Torneo torneo1 = torneo0.get(0);
             Torneo torneo = torneoService.buscarTorneoPorId(torneo1.getId());
 
-            // Filtrar combates donde el entrenador participe en entrenador1 o entrenador2
+
             List<Combate> combatesFiltrados = torneo.getCombates().stream()
                     .filter(combate ->
                             (combate.getEntrenador1() != null && combate.getEntrenador1().getId().equals(idEntrenador)) ||
@@ -68,7 +68,7 @@ public class ExportarCarnetXML {
 
 
 
-            crearXMLCarnet(carnet,"C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\ENTRENADOR\\ExportarCarnetXML.java"+entrenador.getNombre().toUpperCase()+".xml", combatesFiltrados,torneo);
+            crearCarnetXML(carnet,"C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\ENTRENADOR\\ExportarCarnetXML.java"+entrenador.getNombre().toUpperCase()+".xml", combatesFiltrados,torneo);
             System.out.println("Se ha exportado el carnet perfectamente.");
         }
 
@@ -77,69 +77,62 @@ public class ExportarCarnetXML {
 
     }
 
-    public void crearXMLCarnet(Carnet carnet, String archivoSalida, List<Combate> listaCombates, Torneo torneo) {
+    public void crearCarnetXML(Carnet carnet, String archivoSalida, List<Combate> listaCombates, Torneo torneo) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.newDocument();
 
-            // Crear el elemento raíz <carnet>
             Element carnetElement = doc.createElement("carnet");
             doc.appendChild(carnetElement);
 
-            // <id>
             Element idElement = doc.createElement("id");
             idElement.appendChild(doc.createTextNode(String.valueOf(carnet.getIdEntrenador())));
             carnetElement.appendChild(idElement);
 
-            // <fechaexp>
-            Element fechaexpElement = doc.createElement("fechaexp");
+
+            Element fechaexpElement = doc.createElement("fecha");
             fechaexpElement.appendChild(doc.createTextNode(carnet.getFechaExpedicion().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
             carnetElement.appendChild(fechaexpElement);
 
-            // <entrenador>
             Element entrenadorElement = doc.createElement("entrenador");
             carnetElement.appendChild(entrenadorElement);
 
-            // <nombre>
+
             Element nombreEntrenadorElement = doc.createElement("nombre");
             nombreEntrenadorElement.appendChild(doc.createTextNode(carnet.getEntrenador().getNombre()));
             entrenadorElement.appendChild(nombreEntrenadorElement);
 
-            // <nacionalidad>
             Element nacionalidadElement = doc.createElement("nacionalidad");
             nacionalidadElement.appendChild(doc.createTextNode(carnet.getEntrenador().getNacionalidad()));
             entrenadorElement.appendChild(nacionalidadElement);
 
-            // <hoy>
+
             Element hoyElement = doc.createElement("hoy");
             hoyElement.appendChild(doc.createTextNode(carnet.getFechaExpedicion().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
             carnetElement.appendChild(hoyElement);
 
-            // <puntos>
+
             Element puntosElement = doc.createElement("puntos");
             puntosElement.appendChild(doc.createTextNode(String.valueOf(carnet.getPuntos())));
             carnetElement.appendChild(puntosElement);
 
-            // <torneos>
+
             Element torneosElement = doc.createElement("torneos");
             carnetElement.appendChild(torneosElement);
 
-            //<torneo>
             Element torneoElement = doc.createElement("torneo");
             torneosElement.appendChild(torneoElement);
 
-            //<nombre>
             Element nombreElement = doc.createElement("nombre");
             nombreElement.appendChild(doc.createTextNode(torneo.getNombre()));
             torneoElement.appendChild(nombreElement);
 
-            //<region>
             Element regionElement = doc.createElement("region");
             regionElement.appendChild(doc.createTextNode(String.valueOf(torneo.getCodRegion())));
             torneoElement.appendChild(regionElement);
 
-            //<combates>
+
             Element combatesElement = doc.createElement("combates");
             torneoElement.appendChild(combatesElement);
 
@@ -147,19 +140,17 @@ public class ExportarCarnetXML {
                 for (Combate combate : listaCombates) {
                     Element combateElement = doc.createElement("combate");
 
-                    // <id>
                     Element idCombateElement = doc.createElement("id");
                     idCombateElement.appendChild(doc.createTextNode(String.valueOf(combate.getId())));
                     combateElement.appendChild(idCombateElement);
 
-                    // <fecha>
+
                     Element fechaCombateElement = doc.createElement("fecha");
                     fechaCombateElement.appendChild(doc.createTextNode(combate.getFecha().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
                     combateElement.appendChild(fechaCombateElement);
 
-                    // <victoria>
+
                     Element victoriaCombateElement = doc.createElement("victoria");
-                    // Verificar si el id del ganador del combate coincide con el id del entrenador
                     Long idGanadorCombate = combate.getGanador();
 
                     boolean esGanador = idGanadorCombate != null && idGanadorCombate.equals(carnet.getIdEntrenador());
@@ -171,7 +162,11 @@ public class ExportarCarnetXML {
                     combatesElement.appendChild(combateElement);
                 }
             } else {
-                // Si listaCombates es null, agregar un combate vacío
+
+                /**
+                 * SI LISTACOMBATES = NULL
+                 * AÑADIR COMBATE VACIO
+                 */
                 Element combateElement = doc.createElement("combate");
 
                 Element idCombateElement = doc.createElement("id");
@@ -186,11 +181,11 @@ public class ExportarCarnetXML {
                 combatesElement.appendChild(combateElement);
             }
 
-            // Guardar el XML en un archivo
+
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4"); // Espacios de sangría
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File(archivoSalida));
             transformer.transform(source, result);
@@ -198,7 +193,7 @@ public class ExportarCarnetXML {
         } catch (ParserConfigurationException | TransformerException | DOMException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
-            System.err.println("Error: Uno de los valores es nulo. Verifica los datos de Carnet, Entrenador o Torneo.");
+            System.err.println("Error: Uno de los valores es nulo...");
             e.printStackTrace();
         }
     }

@@ -34,103 +34,95 @@ public class Login {
 	public  void inicioSesion() throws SQLException {
 
 	Scanner sc = new Scanner(System.in);
-    System.out.print("Dime tu usuario: ");
+    System.out.println("INICIO DE SESION");
+    System.out.print("Nombre de usuario: ");
     String usu = sc.next();
-    System.out.print("Dame tu contraseña: " );
+    System.out.print("Contraseña: " );
     String contra = sc.next();
-    System.out.println("--------------------------------");
+
     MetodosLogin metodosLogin = new MetodosLogin();
-    if (MetodosLogin.buscarNombreYContraseña("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt",usu,contra)){
-        String per = MetodosLogin.buscarNombreYContraseñaYSacarPerfil("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt",usu,contra);
-        while (true) { // Este bucle asegura que el menú se repita hasta que el usuario elija salir
-            switch (per) {
-                case "AG":
-                    System.out.println("--------------------------------");
-                    System.out.println("Como Administrador General puedes hacer lo siguiente: ");
-                    System.out.println("--------------------------------");
+    if (MetodosLogin.validarCredenciales("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt",usu,contra)){
+        String rol = MetodosLogin.obtenerPerfilPorCredenciales("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt",usu,contra);
+        while (true) {
+            switch (rol) {
+                case "AdminGeneral":
+
+                    System.out.println("BIENVENIDO, ERES EL ADMIN GENERAL: ");
                     System.out.println("1- Crear un nuevo Torneo\n" +
                                        "2- Salir");
-                    System.out.println("--------------------------------");
+
                     int num = sc.nextInt();
-                    System.out.println("--------------------------------");
                     switch (num) {
                         case 1:
                         	NuevoTorneo crearTorneo = new NuevoTorneo(service,combateService);
-                            crearTorneo.crearTorneo(); // Ejecuta el método
-                            break; // Regresa al menú de "AG"
+                            crearTorneo.crearTorneo();
+                            break;
                         case 2:
-                            return; // Sale del programa o del menú principal
+                            return;
                         default:
                             System.out.println("Opción no válida. Por favor, intenta de nuevo.");
                             break;
                     }
-                    break; // Sale del caso "AG" para reiniciar desde el menú principal
+                    break;
 
-                case "AT":
-                    String i = MetodosLogin.buscarNombreYContraseñaYSacarId("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt", usu, contra);
-                    System.out.println("--------------------------------");
-                    System.out.println("Como Administrador de Torneo puedes hacer lo siguiente: ");
-                    System.out.println("--------------------------------");
+                case "AdminTorneo":
+                    String data = MetodosLogin.obtenerIdPorCredenciales("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt", usu, contra);
+                    System.out.println("BIENVENIDO, ERES EL ADMIN DEL TORNEO: ");
                     System.out.println("1- Exportar Datos de Torneo\n" +
                                        "2- Inscribir\n" +
                                         "3- Pelear\n"+
                                        "4- Salir");
-                    System.out.println("--------------------------------");
-                    int num1 = sc.nextInt();
-                    System.out.println("--------------------------------");
-                    switch (num1) {
+                    int optionAT = sc.nextInt();
+
+                    switch (optionAT) {
                         case 1:
                             ExportarDatosTorneo exportarDatosTorneo = new ExportarDatosTorneo(service,entrenadorService,combateService);
-                            exportarDatosTorneo.exportarTorneo(i);
-                            break; // Regresa al menú de "AT"
+                            exportarDatosTorneo.exportarTorneo(data);
+                            break;
                         case 2:
                             Inscribir inscribir = new Inscribir(combateService ,carnetService,service,entrenadorService);
-                            inscribir.inscribir(i);
+                            inscribir.inscribir(data);
                             break;
                         case 3:
                             Pelear pelear = new Pelear(combateService,service,carnetService,entrenadorService);
-                            pelear.pelear(i);
+                            pelear.pelear(data);
                             break;
                         case 4:
-                            return; // Sale del programa o del menú principal
+                            return;
                         default:
                             System.out.println("Opción no válida. Por favor, intenta de nuevo.");
                             break;
                     }
-                    break; // Sale del caso "AT" para reiniciar desde el menú principal
+                    break;
 
-                case "ET":
-                    String id = MetodosLogin.buscarNombreYContraseñaYSacarId("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt", usu, contra);
-                    System.out.println("--------------------------------");
-                    System.out.println("Como Entrenador puedes hacer lo siguiente: ");
-                    System.out.println("--------------------------------");
+                case "Entrenador":
+                    String id = MetodosLogin.obtenerIdPorCredenciales("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt", usu, contra);
+                    System.out.println("BIENVENIDO, ERES EL ENTRENADOR: ");
                     System.out.println("1- Exportar tu Carnet en XML\n" +
                                        "2- Salir");
-                    System.out.println("--------------------------------");
-                    int num2 = sc.nextInt();
-                    System.out.println("--------------------------------");
-                    switch (num2) {
+                    int optionE = sc.nextInt();
+                    switch (optionE) {
                         case 1:
                             ExportarCarnetXML exportarCarnetXML = new ExportarCarnetXML(entrenadorService,carnetService,service,combateService);
                             exportarCarnetXML.exportarCarnet(id);
-                            break; // Regresa al menú de "ET"
+                            break;
                         case 2:
-                            return; // Sale del programa o del menú principal
+                            return;
                         default:
-                            System.out.println("Opción no válida. Por favor, intenta de nuevo.");
+                            System.out.println("ERROR : Opción no válida...");
                             break;
                     }
-                    break; // Sale del caso "ET" para reiniciar desde el menú principal
+                    break;
 
                 default:
-                    System.out.println("Rol no reconocido. Por favor, verifica.");
+                    System.out.println("ERROR : Rol no identificado...");
                     return;
             }
         }
 
 
     }else{
-        System.out.println("Mal introducido el usuario o la contraseña.");
+        System.out.println("ERROR: Credenciales incorrectas...");
     }
 	}
 }

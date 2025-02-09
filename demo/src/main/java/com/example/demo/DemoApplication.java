@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.run.Run;
+import com.example.demo.principal.Principal;
 import com.example.demo.service.CarnetService;
 import com.example.demo.service.CombateService;
 import com.example.demo.service.EntrenadorService;
@@ -33,7 +33,7 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		Run iniciarPrograma = new Run(service,entrenadorService,combateService,carnetService);
+		Principal iniciarPrograma = new Principal(service,entrenadorService,combateService,carnetService);
 		iniciarPrograma.mostrarMenu();
 
 	}

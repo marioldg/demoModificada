@@ -65,9 +65,9 @@ public class NuevoTorneo {
 
             if (val){
 
-                NuevoTorneoMetodos admin = new NuevoTorneoMetodos(userADT,passADT,"AT",code);
+                NuevoTorneoMetodos admin = new NuevoTorneoMetodos(userADT,passADT,"AdminTorneo",code);
 
-                if (!admin.existeUser("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt","AT")){
+                if (!admin.existeUser("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt","AdminTorneo")){
 
                     Torneo torneo = new Torneo();
                     torneo.setNombre(nombreTor);
@@ -78,7 +78,7 @@ public class NuevoTorneo {
                     Torneo torneoCreado = torneoService.buscarTorneoPorId(torneo.getId());
 
                     metodosCrearTorneo.guardarAT("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\torneo.dat",torneoCreado,userADT);
-                    admin.guardarAT("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt","AT",torneoCreado.getId());
+                    admin.guardarAT("C:\\Users\\USER\\Desktop\\DAM2\\demo\\src\\main\\java\\com\\example\\demo\\files\\credenciales.txt","AdminTorneo",torneoCreado.getId());
                     System.out.println("TORNEO CREADO!!");
 
                     System.out.println("CREACION DE COMBATES");
